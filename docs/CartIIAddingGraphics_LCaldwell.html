@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no"/>
+        <title>Cart II: Adding a Graphic to a View</title>
+        <style>
+            html, 
+            body, 
+            #viewDiv {
+                padding: 0;
+                margin: 0;
+                height: 100%;
+                width: 100%;
+            }
+        </style>
+        <link rel="stylesheet" href="https://js.arcgis.com/4.21/esri/themes/light/main.css"/>
+        <script src="https://js.arcgis.com/4.21/"></script>
+        <script>
+            require([ "esri/Map", "esri/views/MapView", "dojo/domReady!" ], 
+            function(Map, MapView) {
+                const map = new Map({
+                    basemap: "dark-gray"
+                });
+                const view = new MapView({
+                    container: "viewDiv",
+                    map: Map,
+                    zoom: 5,
+                    center: [-89.724067, 13.718172],
+                });
+                const pt= {
+                    type: "point",
+                    longitude: -89.724067,
+                    latitude: 13.718172
+                };
+                const markerSymbol= {
+                    type: "simple-marker",
+                    color: [226,119,40],
+                    style: "circle",
+                    size: 5
+                };
+                const ptatt = {
+                    name: "My House",
+                    city: "Sonsonate",
+                    country: "El Salvador"
+                };
+                const ptGraphic = new Graphic({
+                    geometry: pt,
+                    symbol: markerSymbol,
+                    attributes: ptatt,
+                    popupTemplate: {
+                        title: "{Name}",
+                        content: [{
+                            type: "fields",
+                            fieldInfos: [{
+                                fieldName: "Name"
+                            },{
+                                fieldName: "City"
+                            },{
+                                fieldName: "Country"
+                            }]
+                        }]
+                    }
+                });
+                myview.graphics.add(ptGraphic)
+            });
+        </script>
+    </head>
+    <body>
+        <div id = "viewDiv"></div>
+    </body>
+</html>
